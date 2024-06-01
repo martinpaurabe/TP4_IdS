@@ -19,36 +19,57 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file main.c
+#ifndef GPIO_H
+#define GPIO_H
+
+/** @file main.h
  ** @brief Definición de la función principal del programa
  **/
 
-/* === Headers files inclusions =============================================================== */
+/* === Headers files inclusions ================================================================ */
+#include <stdint.h>
+#include <stdbool.h>
 
-#include "main.h"
-#include "gpio.h"
+/* === Cabecera C++ ============================================================================ */
 
-/* === Macros definitions ====================================================================== */
-#define PUERTO_A        1
-#define LED_ROJO_PUERTO PUERTO_A
-#define LED_ROJO_BIT    7
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* === Private data type declarations ========================================================== */
+/* === Public macros definitions =============================================================== */
 
-/* === Private variable declarations =========================================================== */
+/* === Public data type declarations =========================================================== */
+typedef struct gpio_s * gpio_t;
 
-/* === Private function declarations =========================================================== */
+/* === Public variable declarations ============================================================ */
 
-/* === Public variable definitions ============================================================= */
+/* === Public function declarations ============================================================ */
 
-/* === Private variable definitions ============================================================ */
+/// @brief
+/// @param puerto
+/// @param bit
+/// @return
+gpio_t gpioCreate(uint8_t puerto, uint8_t bit);
 
-/* === Private function implementation ========================================================= */
+/// @brief
+/// @param gpio
+/// @param output
+void gpioSetOutput(gpio_t gpio, bool output);
 
-/* === Public function implementation ========================================================== */
+/// @brief
+/// @param gpio
+/// @param state
+void gpioSetState(gpio_t gpio, bool state);
 
-int main(void) {
-    return 0;
-}
+/// @brief
+/// @param gpio
+/// @return
+bool gpioGetState(gpio_t gpio);
 
 /* === End of documentation ==================================================================== */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* GPIO_H */

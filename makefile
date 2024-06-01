@@ -8,7 +8,8 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 .DEFAULT_GOAL := all
 
--include $(patsubst %.o,%.d,$(OBJ_FILES))
+-include $(patsubst %.o,%.d,$(OBJ_FILES))   #Si vas a buscar un .o busca un .d que te dirá
+											#si hay que recompilar el .o porque algún .h cambió
 
 all: $(OBJ_FILES)
 	@echo Enlazando $@
@@ -21,3 +22,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	@rm -r $(OUT_DIR)
+
+# parametro para generar la documentación de doxygen
+doc:
+	@mkdir -p $(OUT_DIR)   
+	@doxygen doxyfile
