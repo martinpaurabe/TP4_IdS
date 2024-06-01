@@ -8,5 +8,12 @@
         "editor.wordBasedSuggestions": "off",
         "editor.suggest.insertMode": "replace",
         "editor.semanticHighlighting.enabled": true
+    },
+    "configurations": {
+        "name": "Linux",
+        "includePath": [
+            "${default}",
+            "${workspaceFolder}/inc"
+        ],
     }
 }

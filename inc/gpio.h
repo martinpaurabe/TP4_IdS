@@ -22,8 +22,8 @@ SPDX-License-Identifier: MIT
 #ifndef GPIO_H
 #define GPIO_H
 
-/** @file main.h
- ** @brief Definición de la función principal del programa
+/** @file gpio.h
+ ** @brief Definición de la funciónes para manejo de pin mediante objeto
  **/
 
 /* === Headers files inclusions ================================================================ */
@@ -44,26 +44,26 @@ typedef struct gpio_s * gpio_t;
 /* === Public variable declarations ============================================================ */
 
 /* === Public function declarations ============================================================ */
-
-/// @brief
-/// @param puerto
-/// @param bit
-/// @return
+/// @brief Funcion que crea el objeto para controlar el pin de interes
+/// @param puerto data register donde se encuentra el pin a controlar
+/// @param bit  numero de bit que se desea controlar
+/// @return el handle para manipular el pin a controlar
 gpio_t gpioCreate(uint8_t puerto, uint8_t bit);
 
-/// @brief
-/// @param gpio
-/// @param output
+/// @brief Funcion que se encarga de configurar la direccion de trabajo del pin
+/// @param gpio objeto que contiene la inforamción del pin que se desea manipular
+/// @param output Direccion de la informacion que manejará el pin (true para output, false para
+/// input)
 void gpioSetOutput(gpio_t gpio, bool output);
 
-/// @brief
-/// @param gpio
-/// @param state
+/// @brief Funcion utilizada para manipular el estado del pin
+/// @param gpio Objeto que maneja el pin
+/// @param state Valor al cual se requiere que se ponga el pin (true = High, false = Low)
 void gpioSetState(gpio_t gpio, bool state);
 
-/// @brief
-/// @param gpio
-/// @return
+/// @brief Funcion para preguntar el estado del pin
+/// @param gpio Objeto que contiene la información del pin de interes
+/// @return devuelve el estado del pin (true= high, false = low)
 bool gpioGetState(gpio_t gpio);
 
 /* === End of documentation ==================================================================== */
