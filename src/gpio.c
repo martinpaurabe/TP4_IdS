@@ -20,7 +20,7 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /** @file gpio.c
- ** @brief Definición de la función principal del programa
+ ** @brief Definición de la función para manejar objeto LED
  **/
 
 /* === Headers files inclusions =============================================================== */
@@ -30,10 +30,10 @@ SPDX-License-Identifier: MIT
 #include <stddef.h>
 
 /* === Macros definitions ====================================================================== */
-#define USE_DYNAMIC_MEM
+//#define USE_DYNAMIC_MEM
 
 #ifndef GPIO_MAX_INSTANCES
-#define GPIO_MAX_INSTANCES 10
+#define GPIO_MAX_INSTANCES 2
 #endif
 
 /* === Private data type declarations ========================================================== */
@@ -58,13 +58,15 @@ static gpio_t allocateInstance(void) {
 
     gpio_t result = NULL;
     for (int index = 0; index < GPIO_MAX_INSTANCES; index++) {
-        if (instances[index].used) {
+        if (!instances[index].used) {
             result = &instances[index];
             result->used = true;
             break;
         }
     }
+    return result;
 };
+
 /* === Public function implementation ========================================================== */
 /// @brief Funcion que crea el objeto para controlar el pin de interes
 /// @param puerto data register donde se encuentra el pin a controlar

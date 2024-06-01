@@ -33,9 +33,13 @@ SPDX-License-Identifier: MIT
 #
 
 /* === Macros definitions ====================================================================== */
-#define PUERTO_A        1
-#define LED_ROJO_PUERTO PUERTO_A
-#define LED_ROJO_BIT    7
+#define PUERTO_A         1
+#define LED_ROJO_PUERTO  PUERTO_A
+#define LED_VERDE_PUERTO PUERTO_A
+#define LED_AZUL_PUERTO  PUERTO_A
+#define LED_ROJO_BIT     7
+#define LED_VERDE_BIT    6
+#define LED_AZUL_BIT     5
 
 /* === Private data type declarations ========================================================== */
 
@@ -53,16 +57,39 @@ SPDX-License-Identifier: MIT
 
 int main(void) {
     printf("Inicia el programa\n");
-
+    // Inicializo el led Rojo
     gpio_t ledRed = gpioCreate(LED_ROJO_PUERTO, LED_ROJO_BIT);
 
     if (ledRed == NULL) {
-        perror("no hay lugar para led");
+        perror("no hay lugar para led ROJO\n");
         exit(1);
     }
 
     gpioSetOutput(ledRed, true);
     gpioSetState(ledRed, true);
+
+    // Inicializo el led Azul
+    gpio_t ledBlue = gpioCreate(LED_AZUL_PUERTO, LED_AZUL_BIT);
+
+    if (ledBlue == NULL) {
+        perror("no hay lugar para led AZUL\n");
+        exit(1);
+    }
+
+    gpioSetOutput(ledBlue, true);
+    gpioSetState(ledBlue, true);
+
+    // Inicializo el Led Verde
+
+    gpio_t ledGreen = gpioCreate(LED_VERDE_PUERTO, LED_VERDE_BIT);
+
+    if (ledGreen == NULL) {
+        perror("no hay lugar para led VERDE\n");
+        exit(1);
+    }
+
+    gpioSetOutput(ledGreen, true);
+    gpioSetState(ledGreen, true);
 
     printf("Inicia el ciclo\n");
 
