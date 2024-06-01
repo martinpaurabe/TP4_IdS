@@ -18,7 +18,7 @@ all: $(OBJ_FILES)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo Compilando $@
 	@mkdir -p $(OBJ_DIR)
-	@gcc -o $@ -c $< -I $(INC_DIR) -MMD
+	@gcc -o $@ -c $< -I $(INC_DIR) -MMD #-D GPIO_MAX_INSTANCES = 20
 
 clean:
 	@rm -r $(OUT_DIR)

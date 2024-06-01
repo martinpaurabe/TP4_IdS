@@ -27,6 +27,10 @@ SPDX-License-Identifier: MIT
 
 #include "main.h"
 #include "gpio.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#
 
 /* === Macros definitions ====================================================================== */
 #define PUERTO_A        1
@@ -48,6 +52,29 @@ SPDX-License-Identifier: MIT
 /* === Public function implementation ========================================================== */
 
 int main(void) {
+    printf("Inicia el programa\n");
+
+    gpio_t ledRed = gpioCreate(LED_ROJO_PUERTO, LED_ROJO_BIT);
+
+    if (ledRed == NULL) {
+        perror("no hay lugar para led");
+        exit(1);
+    }
+
+    gpioSetOutput(ledRed, true);
+    gpioSetState(ledRed, true);
+
+    printf("Inicia el ciclo\n");
+
+    while (1) {
+        if (gpioGetState(ledRed))
+            gpioSetState(ledRed, false);
+        else
+            gpioSetState(ledRed, true);
+
+        sleep(2);
+        printf("Terminó Loop\n");
+    }
     return 0;
 }
 

@@ -25,18 +25,21 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions =============================================================== */
 #include "gpio.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
 
 /* === Macros definitions ====================================================================== */
+#define USE_DYNAMIC_MEM
+
 #ifndef GPIO_MAX_INSTANCES
 #define GPIO_MAX_INSTANCES 10
 #endif
 
 /* === Private data type declarations ========================================================== */
 struct gpio_s {
-    unit8_t port;
-    unit8_t bit;
+    uint8_t port;
+    uint8_t bit;
     bool output;
     bool state;
     bool used;
@@ -56,18 +59,30 @@ static gpio_t allocateInstance(void) {
     gpio_t result = NULL;
     for (int index = 0; index < GPIO_MAX_INSTANCES; index++) {
         if (instances[index].used) {
-            result = &isntances[index].used;
+            result = &instances[index];
             result->used = true;
             break;
         }
     }
-}
+};
 /* === Public function implementation ========================================================== */
 /// @brief Funcion que crea el objeto para controlar el pin de interes
 /// @param puerto data register donde se encuentra el pin a controlar
 /// @param bit  numero de bit que se desea controlar
 /// @return el handle para manipular el pin a controlar
-gpio_t gpioCreate(uint8_t puerto, uint8_t bit);
+gpio_t gpioCreate(uint8_t puerto, uint8_t bit) {
+#ifdef USE_DYNAMIC_MEM
+    gpio_t self = malloc(sizeof(struct gpio_s));
+#else
+    gpio_t self = allocateInstance();
+#endif
+    if (self) {
+        self->port = puerto;
+        self->bit = bit;
+        self->output = false;
+    }
+    return self;
+};
 
 /// @brief Funcion que se encarga de configurar la direccion de trabajo del pin
 /// @param gpio objeto que contiene la inforamción del pin que se desea manipular
@@ -76,7 +91,7 @@ gpio_t gpioCreate(uint8_t puerto, uint8_t bit);
 void gpioSetOutput(gpio_t self, bool output) {
     self->output = output;
     //    HAL_GPIO_OUTPUT(self->port, self->bit);
-    printf("LED DDR output to %B", self->output);
+    printf("LED DDR output to %s\n", self->output ? "true" : "false");
 };
 
 /// @brief Funcion utilizada para manipular el estado del pin
@@ -85,9 +100,10 @@ void gpioSetOutput(gpio_t self, bool output) {
 void gpioSetState(gpio_t self, bool state) {
     if (self->output) {
         self->state = state;
-        printf("LED DR state set to %B", self->state);
+        printf("LED DR state is %s\n", self->state ? "true" : "false");
         // HAL_GPIO_SET_STATE(self->port, self->bit);
-    }
+    } else
+        printf("ERROR writting: LED is an input");
 };
 
 /// @brief Funcion para preguntar el estado del pin
