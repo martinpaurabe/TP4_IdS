@@ -1,5 +1,9 @@
 /************************************************************************************************
-Copyright (c) 2023, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright 2024, Ingenieria de Software
+Facultad de Ingenieria
+Universidad Nacional de Buenos Aires
+
+Copyright (c) 2023, Martin Paura Bersan <mpb39212@gmail.comr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,

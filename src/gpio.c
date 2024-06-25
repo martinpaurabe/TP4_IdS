@@ -1,5 +1,9 @@
 /************************************************************************************************
-Copyright (c) 2023, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright 2024, Ingenieria de Software
+Facultad de Ingenieria
+Universidad Nacional de Buenos Aires
+
+Copyright (c) 2023, Martin Paura Bersan <mpb39212@gmail.comr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -25,9 +29,6 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions =============================================================== */
 #include "gpio.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
 
 /* === Macros definitions ====================================================================== */
 //#define USE_DYNAMIC_MEM
@@ -68,10 +69,7 @@ static gpio_t allocateInstance(void) {
 };
 
 /* === Public function implementation ========================================================== */
-/// @brief Funcion que crea el objeto para controlar el pin de interes
-/// @param puerto data register donde se encuentra el pin a controlar
-/// @param bit  numero de bit que se desea controlar
-/// @return el handle para manipular el pin a controlar
+
 gpio_t gpioCreate(uint8_t puerto, uint8_t bit) {
 #ifdef USE_DYNAMIC_MEM
     gpio_t self = malloc(sizeof(struct gpio_s));
@@ -86,19 +84,12 @@ gpio_t gpioCreate(uint8_t puerto, uint8_t bit) {
     return self;
 };
 
-/// @brief Funcion que se encarga de configurar la direccion de trabajo del pin
-/// @param gpio objeto que contiene la inforamción del pin que se desea manipular
-/// @param output Direccion de la informacion que manejará el pin (true para output, false para
-/// input)
 void gpioSetOutput(gpio_t self, bool output) {
     self->output = output;
     //    HAL_GPIO_OUTPUT(self->port, self->bit);
     printf("LED DDR output to %s\n", self->output ? "true" : "false");
 };
 
-/// @brief Funcion utilizada para manipular el estado del pin
-/// @param gpio Objeto que maneja el pin
-/// @param state Valor al cual se requiere que se ponga el pin (true = High, false = Low)
 void gpioSetState(gpio_t self, bool state) {
     if (self->output) {
         self->state = state;
@@ -108,9 +99,6 @@ void gpioSetState(gpio_t self, bool state) {
         printf("ERROR writting: LED is an input");
 };
 
-/// @brief Funcion para preguntar el estado del pin
-/// @param gpio Objeto que contiene la información del pin de interes
-/// @return devuelve el estado del pin (true= high, false = low)
 bool gpioGetState(gpio_t self) {
     return self->state;
     // return HAL_GPIO_GET_STATE(self->port, self->bit);
